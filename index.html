@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fabian Kruse</title>
+  <meta name="description" content="Fabian Kruse, PhD candidate at the University of Basel working on generative models from noisy data, inverse problems, and cryo-electron tomography.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav class="top">
+    <a class="mark" href="#">FK</a>
+    <div class="nav-links">
+      <a href="#work">Papers</a>
+      <a href="#news">News</a>
+      <a href="#talks">Talks</a>
+      <a href="Fabian_Kruse_CV.pdf">CV</a>
+    </div>
+  </nav>
+
+  <main>
+
+    <header class="hero">
+      <div class="hero-text">
+        <h1>Fabian Kruse</h1>
+        <p class="label">PhD Candidate · University of Basel</p>
+        <p class="bio">
+          I am a PhD student in the <a href="https://sada.dmi.unibas.ch/">Signal and Data Analytics Lab</a>,
+          advised by <a href="https://rds.unibas.ch/en/persons/ivan-dokmanic/">Ivan Dokmanić</a>.
+          I develop machine learning and optimization methods for scientific imaging that hold up on
+          real experimental data: <strong>generative models learned from noisy data</strong>, and
+          <strong>fast algorithms for 3D alignment</strong> in cryo-electron tomography.
+        </p>
+        <p class="bio muted">
+          Before my PhD, I studied mathematics and computer science in Basel and interned at Roche.
+        </p>
+        <p class="links">
+          <a href="mailto:fabian.kruse@unibas.ch">Email</a>
+          <a href="https://github.com/fabian-kruse">GitHub</a>
+          <a href="https://scholar.google.com/citations?user=pbBnAGgAAAAJ">Scholar</a>
+          <a href="https://www.linkedin.com/in/fabian-kruse-23999727a/">LinkedIn</a>
+          <a href="https://sada.dmi.unibas.ch/">SADA Lab</a>
+        </p>
+      </div>
+
+      <figure class="portrait">
+        <img src="assets/photo.jpg" alt="Portrait of Fabian Kruse" width="600" height="750"
+             onerror="this.parentElement.classList.add('missing')">
+      </figure>
+    </header>
+
+    <section id="work">
+      <h2>Selected Work</h2>
+
+      <article class="paper with-fig">
+        <div class="paper-text">
+        <p class="tag">ICLR 2027 · Under review</p>
+        <h3>Learning Clean Generative Processes from Noisy Measurements</h3>
+        <p class="authors"><strong>Fabian Kruse</strong>, Lorenzo Baldassari, Ivan Dokmanić</p>
+        <details>
+          <summary>Abstract</summary>
+          <p>
+            We study how to learn a generative model of clean images using only noisy observations. Diffusion
+            processes and their generalizations to non-Gaussian noise require posterior predictions at every noise
+            level. We first show that it is possible to learn these predictions from independent noisy views using
+            Noise2Noise regression, but only at or above the noise level of the training data. To learn the
+            predictions below that level, needed to generate clean images, we impose consistency: a prediction
+            should equal its expectation after continuing the sampling process. We derive conditions under which
+            consistency uniquely determines the continuation to the clean image distribution and verify them for
+            Poisson, binomial, Gamma, and negative-binomial measurements. Experiments on CIFAR-10, photon-counting
+            microscopy, and synthetic aperture radar show that the required posterior predictions can be learned
+            from noisy views alone and that the consistency relation repairs the continuation beyond the noise
+            level of the data, which severely deteriorates without consistency.
+          </p>
+        </details>
+        <p class="paper-links">
+          <a href="https://arxiv.org/abs/2610.42036">arXiv</a>
+          <button type="button" class="cite" data-bibtex="@article{kruse2026clean,
+  title   = {Learning Clean Generative Processes from Noisy Measurements},
+  author  = {Kruse, Fabian and Baldassari, Lorenzo and Dokmani{\'c}, Ivan},
+  journal = {arXiv preprint arXiv:2610.42036},
+  year    = {2026}
+}">Cite</button>
+        </p>
+        </div>
+        <figure class="demo">
+          <div class="flow">
+            <img src="assets/iclr/noisy.png" alt="Noisy microscopy frame with 5,020 photons">
+            <span class="arrow">standard<br>diffusion</span>
+            <img src="assets/iclr/noisy-sample.png" alt="A sample that is as noisy as the training data">
+            <img src="assets/iclr/noisy.png" alt="">
+            <span class="arrow ours">ours</span>
+            <img id="ours" src="assets/iclr/consistency.png" alt="Continuation with consistency: sharp cell walls">
+            <span class="fig-label">measurement</span><span></span><span class="fig-label">generated</span>
+          </div>
+          <figcaption><span>Trained on noisy photon counts, standard diffusion learns the noisy distribution. Ours generates the clean images.</span></figcaption>
+          <div class="controls">
+            <button id="spread" type="button" aria-pressed="false">Show uncertainty</button>
+            <span id="spread-readout" class="readout"></span>
+          </div>
+        </figure>
+      </article>
+
+      <article class="paper with-fig">
+        <div class="paper-text">
+        <p class="tag">Preprint · 2026</p>
+        <h3>Fast Volume Alignment by Frequency-Marched Newton Method</h3>
+        <p class="authors"><strong>Fabian Kruse</strong>, Valentin Debarnot, Vinith Kishore, Ivan Dokmanić</p>
+        <details>
+          <summary>Abstract</summary>
+          <p>
+            We introduce Matcha, a fast method for rotational pose estimation in three-dimensional alignment, and
+            combine it with FFT-based translation updates for full pose estimation. Classical matched filtering
+            evaluates cross-correlation over a large discretized transformation space; we instead treat rotational
+            alignment as a continuous optimization problem on SO(3). Matcha starts from a bandlimited Wigner-D
+            expansion of the rotational correlation, which enables rapid objective evaluation together with analytic
+            gradients and Hessians. A low-bandwidth SOFFT search provides robust candidate rotations, which are then
+            refined by frequency marching: the angular bandwidth is progressively increased, and candidates are
+            updated by Newton steps at each level. This confines exhaustive search to a single low-frequency stage
+            while allowing the final accuracy to be determined by continuous refinement rather than by the grid
+            spacing. We prove a deterministic conditional guarantee showing that, under reasonable assumptions,
+            Matcha returns a near-optimal solution for the final bandlimited objective. On synthetic
+            rotation-estimation benchmarks, Matcha attains sub-degree accuracy while substantially reducing runtime
+            relative to exhaustive SO(3) search. Integrated into a RELION-5 subtomogram-averaging workflow, it
+            matches the baseline reconstruction quality on the tested dataset, reaching the same Nyquist-limited
+            local resolution while reducing rotational pose-refinement time by more than an order of magnitude.
+          </p>
+        </details>
+        <p class="paper-links">
+          <a href="https://arxiv.org/abs/2603.15285">arXiv</a>
+          <a href="https://github.com/swing-research/Matcha">Code</a>
+          <button type="button" class="cite" data-bibtex="@article{kruse2026matcha,
+  title   = {Fast Volume Alignment by Frequency-Marched Newton Method},
+  author  = {Kruse, Fabian and Debarnot, Valentin and Kishore, Vinith and Dokmani{\'c}, Ivan},
+  journal = {arXiv preprint arXiv:2603.15285},
+  year    = {2026}
+}">Cite</button>
+        </p>
+        </div>
+        <figure class="demo" aria-label="Interactive rotational alignment of a ribosome">
+          <div class="pair">
+            <canvas id="ref"></canvas>
+            <canvas id="part"></canvas>
+            <span class="fig-label">reference</span>
+            <span class="fig-label">particle</span>
+          </div>
+          <figcaption><span>Drag the particle to align it.</span></figcaption>
+          <div class="controls">
+            <button id="align" type="button">Show alignment</button>
+            <button id="shuffle" type="button">New pose</button>
+            <span id="align-readout" class="readout"></span>
+          </div>
+        </figure>
+      </article>
+    </section>
+
+    <section id="news">
+      <h2>News</h2>
+      <ol class="news">
+        <li><time>Nov 2026</time><span>Poster on learning clean generative processes from noisy data at the <a href="https://machine-intelligence.io">Machine Intelligence Summit</a> in Zurich, Switzerland.</span></li>
+        <li><time>Oct 2026</time><span>New preprint: <a href="https://arxiv.org/abs/2610.42036">Learning Clean Generative Processes from Noisy Measurements</a>, under review at ICLR 2027.</span></li>
+        <li><time>Jun 2026</time><span>Talks at <a href="https://cs2026.sciencesconf.org">Curves and Surfaces</a> in Saint-Malo, France, and at <a href="https://www.siam.org/conferences-events/past-event-archive/op26/">SIAM OP26</a> in Edinburgh, UK.</span></li>
+        <li><time>Mar 2026</time><span>Matcha, our fast volume alignment method, is on <a href="https://arxiv.org/abs/2603.15285">arXiv</a>.</span></li>
+        <li><time>Jun 2025</time><span>Talk at the <a href="https://www.iscs2025.com">International Symposium on Computational Sensing</a> in Clervaux, Luxembourg.</span></li>
+      </ol>
+    </section>
+
+    <section id="talks">
+      <h2>Talks &amp; Posters</h2>
+      <p class="talk-title"><em>Fast Volume Alignment by Frequency-Marched Newton Method</em>, presented at</p>
+      <p class="paper-links talk-links"><a href="https://arxiv.org/abs/2603.15285">Paper</a><a href="https://github.com/swing-research/Matcha">Code</a></p>
+      <ul class="rows">
+        <li><span><a href="https://cs2026.sciencesconf.org">Curves and Surfaces</a>, Saint-Malo, France</span><time>2026</time></li>
+        <li><span><a href="https://www.siam.org/conferences-events/past-event-archive/op26/">SIAM Conference on Optimization (OP26)</a>, Edinburgh, UK</span><time>2026</time></li>
+        <li><span><a href="https://www.iscs2025.com">International Symposium on Computational Sensing</a>, Clervaux, Luxembourg</span><time>2025</time></li>
+      </ul>
+      <p class="talk-title"><em>Learning Clean Generative Processes from Noisy Measurements</em>, poster at</p>
+      <p class="paper-links talk-links"><a href="https://arxiv.org/abs/2610.42036">Paper</a></p>
+      <ul class="rows">
+        <li><span><a href="https://machine-intelligence.io">Machine Intelligence Summit</a>, Zurich, Switzerland</span><time>2026</time></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Teaching</h2>
+      <ul class="rows">
+        <li><span>Supervision of BSc and MSc theses and student projects</span><time>ongoing</time></li>
+        <li><span>TA, <em>A Practical Introduction to Data Science</em>, University of Basel</span><time>2025, 2026</time></li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer>
+    <span>© 2026 Fabian Kruse</span>
+    <span>Basel, Switzerland</span>
+  </footer>
+
+  <script src="ribosome.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
